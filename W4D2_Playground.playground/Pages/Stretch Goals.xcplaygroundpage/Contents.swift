@@ -26,21 +26,27 @@ case (let name, let animal, let age):
 
 // case (let name, let animal, let age) where (age < 1 || name.count < 1 || animal.count < 1):
 // Explain what this does.
+// for animal that has empty name or empty animal type name, or age of 0
 
 // case ("Billy", "Dog", let age):
 // Explain what this does.
+// for Dog named Billy
 
 // case ("Tim", "Dog", let age) where age == 2:
 // Explain what this does.
+// for Dog named Tim that is 2 years old
 
 // case (let name, let animal, ..<3):
 // Explain what this does.
+// for any pet younger than 3 years
 
 // case (let name, let animal, 7...):
 // Explain what this does.
+// for any pet 7 years old or older
 
 // case (let name, let animal, let age):
 // Explain what this does.
+// for any other pet that does not satisfy any of conditions above
 
 
 /*:
@@ -67,8 +73,33 @@ let stringArray = [String]()
 //: Now it's your turn. Create an extension on the 'Queue' data structure you created earlier.
 //: For elements that conforms to the 'Numeric' protocol, create a function that adds all numbers together in the queue and print out its total.
 
+struct Queue<T> {
+  var queue: [T] = []
+  
+  mutating func push(item: T) {
+    queue.append(item)
+  }
+  func pop() -> T? {
+    if let item = queue.first {
+      return item
+    } else {
+      return nil
+    }
+  }
+}
 
-
+extension Queue where T: Numeric {
+  func numTotal() -> T? {
+    if queue.count == 0 {
+      return nil
+    }
+    var sum: T = queue[0]
+    for number in queue {
+      sum = sum + number
+    }
+    return sum
+  }
+}
 /*:
  - Callout(Stretch Goal):
  Optional chaining is a process we can use to call properties, methods and subscripts on optionals whose value may or may not be nil. This acts like an alternative way to do force unwrapping but if the optional value is nil, it won't crash the app during runtime.
@@ -99,6 +130,9 @@ let dictionary: Dictionary? = ["Sentence 1" : "Let me help you with your baggage
                                "Sentence 2" : "I'd rather have a burger",
                                "Sentence 3" : "I think I will buy the red car"]
 
+if let count = dictionary?["Sentence 1"]?.count {
+  print("\(count)")
+}
 
 
 //: [Next](@next)

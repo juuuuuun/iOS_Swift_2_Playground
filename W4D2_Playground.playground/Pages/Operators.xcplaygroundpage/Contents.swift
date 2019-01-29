@@ -46,7 +46,9 @@ let combinedValues = "abc" + 123
  Use the '*' operator to multiply a String and an Int. This returns a new String and repeats the given String the number of times delcared by the Int. ie: "abc" * 3 = "abcabcabc"
  */
 
-
+func *(left: String, right: Int) -> String {
+  return String(repeating: left, count: right)
+}
 /*:
  - Experiment:
  You can also overload the operators within an extension so it only affects this type. Add your own overload operators and you can even change the behaviour of existing ones. A `static` keyword is required for the functions and lie within the extension.
@@ -58,12 +60,12 @@ let combinedValues = "abc" + 123
 extension Int {
   
   // Comment this function in to try it!
-  //    static func + (left: Int, right: Int) -> Int{
-  //
-  //        return left - right
-  //    }
+      static func + (left: Int, right: Int) -> Int{
+  
+          return left - right
+      }
 }
-
+2 + 1
 
 /*:
  ### Custom Operators
@@ -87,6 +89,10 @@ var incrementTwo = incrementOne+++
  Create your own custom operator using the square root symbol here: √
  */
 
+prefix operator √
+prefix func √ (number: Double) -> Double {
+  return pow(number, 0.5)
+}
 
 /*:
  ### Swift Operators Guidelines
@@ -100,7 +106,12 @@ var incrementTwo = incrementOne+++
  When we have percentage values, we tend to convert them into their decimal form before doing any arithmetic to them. Create an operator with the '%' that will be a convenient operator to convert Int values into a usable percentage value. ie: 10% = 0.1
  */
 
+postfix operator %
+postfix func % (number: Int) -> Double {
+  return Double(number) / 100.0
+}
 
+1%
 /*:
  - Callout(Challenge):
  We can also overload existing operators or change their functionality. Try using the '+' on two arrays of Int together. What is the result? Now let's change the functionality. Take the two arrays and sum together the values at their correspding index.
@@ -108,6 +119,18 @@ var incrementTwo = incrementOne+++
  For example, [1,2] + [3,4] = [4,6]. If the array count size are not the same, then return nil
  */
 
+func +(left: [Int], right: [Int]) -> [Int]? {
+  if left.count != right.count {
+    return nil
+  } else {
+    var array: [Int] = []
+    for i in 0..<left.count {
+      array.append(left[i] + right[i])
+    }
+    return array
+  }
+}
 
+[1, 2] + [3, 4]
 
 //: [Next](@next)

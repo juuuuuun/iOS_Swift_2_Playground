@@ -9,14 +9,21 @@ import UIKit
  - Callout(Operator: 'is'):
  We can use the 'is' operator to check if an instance is one of its subclasses
  */
+
+let button: UIButton = UIButton()
+//button is UIView
 /*:
  - Callout(Operator: 'as?'):
  We can use the 'as?' to attempt a downcast of an instance. Note the '?', meaning this will return an optional value. If the downcast is not possible, nil will be returned.
  */
+//button as? UIView
+//button as? Double
 /*:
  - Callout(Operator: 'as!'):
  We can use the 'as!' to downcast and do a force unwrap of the value in one step. Only use this if you are sure the downcast will succeed.
  */
+//button as! UIView
+//button as! Double
 
 //: We can look at an example using UIView and UIButton from Apple's UIKit
 
@@ -24,11 +31,18 @@ import UIKit
 // This is valid since UIButton subclasses UIView
 let myView: UIView = UIButton()
 
+
 /*:
  - Experiment:
  Try using the `is` operator on `myView`. Take a look at the evaluation on the right to see what the results are. ie: `myView is UIView`. Try checking if `myView` is any of the following views: `UIButton`, `UITableView`, `UIImageView`
  */
 
+
+//myView is UIView
+//myView is UIButton
+myView is UITableView
+myView is UIButton
+myView is UIImageView
 
 /*:
  - Experiment:
@@ -51,6 +65,10 @@ let myCastedButtonView = myView as? UIButton
  Now that we downcast our `myView` to an actual UIButton, use conditional unwrapping to ensure it is not nil, then try calling the `setTitle` method to ensure it can be called.
  */
 
+if let myCastedButtonView = myCastedButtonView {
+  myCastedButtonView.setTitle("title", for: UIControl.State.normal)
+}
+
 
 /*:
  - Callout(Challenge):
@@ -67,7 +85,15 @@ view.addSubview(UIButton())
 /*:
  And we need to find all buttons. Write a function to search for `UIButtons` in this view's `subviews`, and return an array will all the buttons.
  */
-
+func findButtons(view: UIView) -> [UIButton] {
+  var buttonArray: [UIButton] = []
+  for subView in view.subviews {
+    if subView is UIButton {
+      buttonArray.append(subView as! UIButton)
+    }
+  }
+  return buttonArray
+}
 
 /*:
  - Callout(Challenge - Part 1):
@@ -82,16 +108,27 @@ class MediaItem {
 }
 
 class Movie: MediaItem {
+  let director: String
+  init(name: String, director: String) {
+    self.director = director
+    super.init(name: name)
+  }
 }
 
 class Song: MediaItem {
+  let artist: String
+  init(name: String, artist: String) {
+    self.artist = artist
+    super.init(name: name)
+  }
 }
 
 /*:
  - Callout(Challenge - Part 2):
  Now take the array below of MediaItems and create a for loop on the array that prints out what type of media item it is and print out their properties.
  */
-/*
+
+
 let library = [
   Movie(name: "Casablanca", director: "Michael Curtiz"),
   Song(name: "Blue Suede Shoes", artist: "Elvis Presley"),
@@ -99,6 +136,14 @@ let library = [
   Song(name: "The One And Only", artist: "Chesney Hawkes"),
   Song(name: "Never Gonna Give You Up", artist: "Rick Astley")
 ]
-*/
+
+for item in library {
+  if item is Movie {
+    print("Movie name: \(item.name) director: \((item as! Movie).director)")
+  } else if item is Song {
+    print("Song name: \(item.name) artist: \((item as! Song).artist)")
+  }
+}
+
 
 //: [Next](@next)

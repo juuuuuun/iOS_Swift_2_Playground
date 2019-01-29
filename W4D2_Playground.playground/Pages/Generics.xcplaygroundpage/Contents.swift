@@ -34,7 +34,9 @@ printMyTwoNumbers(num1: "three", num2: "four")
  Now you try! Write a generic function that takes in two parameters and multiply their value together and print the result. (Hint: You might run into an error after finishing. Continue to the next experiment to find out why!)
  */
 
-
+func multiply<T: Numeric>(number: T, another: T) -> T {
+  return number * another
+}
 /*:
  - Experiment:
  You might have run into error in the console regarding the multiplication operator can only be applied to numbered parameters. This makes sense as multiplying two Strings together doesn't make sense. So, we want to only take in variable types that *can* use the multiplication operator. In this case, we can limit the element type to types that conform to the `Numeric` protocol like below.
@@ -60,8 +62,16 @@ func multiply<Element: Numeric>(num1: Element, num2: Element) {
  For this experiment, refrain from using the array method `indexOf`. Also the protocol `Equatable` might be useful here. Search it up to see what it's about.
  */
 
+func find<T: Equatable>(array: [T], element: T) -> Int {
+  if array.contains(element) {
+    if let index = array.firstIndex(of: element) {
+      return index
+    }
+  }
+  return -1
+}
 
-
+find(array: [1, 2, 3, 4, 5, 6, 7, 1, 2, 3], element: 5)
 /*:
  - Callout(Challenge):
  During class you saw a simple implementation of a stack where data is inserted (pushed) to the top of the stack when data is added. When data is removed (pop) from the stack, it removes the first item at the top of the stack. We will now implement a similar data structure called a "queue" as a generic.
@@ -75,6 +85,21 @@ func multiply<Element: Numeric>(num1: Element, num2: Element) {
  - dequeue: remove an item from the queue, and return the removed element
  */
 
+struct Queue<T> {
+  var queue: [T] = []
+  
+  mutating func push(item: T) {
+    queue.append(item)
+  }
+  
+  func pop() -> T? {
+    if let first = queue.first {
+      return first
+    } else {
+      return nil
+    }
+  }
+}
 
 
 //: [Next](@next)
